@@ -18,7 +18,9 @@ public class Main {
         ll1.insertLast(4);
         //LinkedList newLL = LinkedList.merge(ll,ll1) ;
         //System.out.println(ll1.getNode(0));
-        ll1.bubbleSort();
+        //ll1.bubbleSort();
+        ll1.displayForward();
+        ll1.reverse();
         ll1.displayForward();
 
 

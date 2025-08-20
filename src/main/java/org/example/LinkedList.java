@@ -163,7 +163,22 @@ class LinkedList{
                previous = second;
            }
        }
-       this.displayForward();
+   }
+   public void reverse(){
+       this.recursiveReverse(this.head);
+   }
+   public void recursiveReverse(Node current){
+        if (current.next ==null){
+            head = current;
+            tail = current;
+            return ;
+        }
+        recursiveReverse(current.next);
+        tail.next = current;
+        current.next = null;
+        tail = current;
+
+
    }
    private class Node{
            private int value;
