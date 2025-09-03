@@ -1,202 +1,124 @@
 package org.example;
 
-class LinkedList{
+public class LinkedList{
    private Node head;
    private Node tail;
    private int size;
-   public void displayForward(){
-       Node temp = this.head;
-       while (temp !=null){
-            System.out.print(temp.value+"->");
-            temp = temp.next;
 
-       }
-       System.out.println("END");
-   }
-
-   public void displayBackward(){
-       Node temp = tail;
-       System.out.print("Start");
-       while (temp!=null) {
-           System.out.print("<-"+temp.value);
-           temp = temp.previous;
-       }
-       System.out.println();
-   }
    public void insertFirst(int value){
-
-       Node new_node = new Node(value);
-
-      // head.previous = new_node;
-       new_node.next = head;
-       head = new_node;
-       size++;
-       if (tail == null){
-           tail = head;
-       }
-   }
-   public void deleteFirst() {
-       head = head.next;
-       head.next.previous = null;
-       if (head == null) {
-           tail = null;
-       }
-       size--;
-   }
-   public void deleteLast() {
-       if (tail == head){
-           head=null;
-           size--;
+       Node newNode = new Node(value);
+       if (this.head == null){
+           this.head = newNode;
+           this.tail = newNode;
+           this.size++;
            return;
 
        }
-       Node temp = head;
-       for (int i = 1; i < size - 1; i++) {
-            temp = temp.next;
-        }
-       temp.next = null;
-       tail = temp;
-       size--;
+       newNode.next = this.head;
+       this.head = newNode;
+       this.size ++;
    }
    public void insertLast(int value) {
-        if (tail == null){
-            insertFirst(value);
-            return;
-        }
-        Node new_node = new Node(value);
-        tail.next = new_node;
-       // tail.previous = tail;
-        tail = new_node;
-        size++;
-   }
-   public void insertAtIndex(int value,int index) {
-       if (index == 0) {
+       Node newNode = new Node(value);
+       if (head == null){
            insertFirst(value);
            return;
        }
-       if (index == size ) {
-           insertLast(value);
+       this.tail.next = newNode;
+       this.tail = newNode;
+       this.size++;
+   }
+   public void insertMiddle(int value,int index){
+       if (index == 0){
+           insertFirst(value);
+       }
+       else if (index == this.size) insertLast(value);
+       else{
+           Node temp = this.head;
+           Node current = temp;
+           int tempIndex = 0;
+           while (temp !=null && tempIndex <  index){
+               current = temp;
+               temp = temp.next;
+           }
+           Node newNode = new Node(value);
+           current.next = newNode;
+           newNode.next = temp;
+           this.size++;
+       }
+   }
+   public void deleteFirst(){
+       if (this.head != null) {
+           this.head = this.head.next;
+           if (this.head == null) {
+               this.tail = null;
+           }
+           this.size--;
+       }
+   }
+   public void deleteLast(){
+       if (this.tail != null){
+           if (this.head == this.tail) {
+               deleteFirst();
+               return;
+           }
+           Node temp = this.head;
+           Node previous = temp;
+           int index = 0;
+           while (temp != null && index <=this.size -2){
+               previous = temp;
+               temp = temp.next;
+               index+=1;
+
+           }
+           if (previous !=null) {
+               previous.next = null;
+               this.tail = previous;
+               this.size--;
+           }
+
+
+       }
+   }
+   public void deleteMiddle(int index){
+       if (index==0) {
+           deleteFirst();
            return;
        }
-
-       Node temp = head;
-       for (int i = 1; i < index; i++) {
-            temp = temp.next;
+       if (index == this.size-1){
+           deleteLast();
+           return;
        }
-       Node new_node = new Node(value,temp.next,temp);
-       temp.next = new_node;
-       size++;
-   }
-   public void deleteAtIndex(int index) {
-       if (index == 0) deleteFirst();
-       if (index == size - 1) deleteLast();
-       Node temp = head;
-       for (int i = 1; i < index; i++) {
+       Node temp = this.head;
+       for (int i =1; i < index && temp!=null;i++){
            temp = temp.next;
        }
-       temp.next = temp.next.next;
-       temp.next.next.previous = temp;
-       size--;
+       if (temp != null && temp.next !=null){
+           temp.next = temp.next.next;
+       }
    }
-   public static LinkedList merge(LinkedList list1,LinkedList list2){
-
-       LinkedList newList = new LinkedList();
-       Node head1 = list1.head;
-       Node head2 = list2.head;
-       while (head1!=null & head2!=null){
-           if (head1.value < head2.value){
-               newList.insertLast(head1.value);
-               head1 = head1.next;
-
-           }
-           else{
-               newList.insertLast(head2.value);
-               head2 = head2.next;
-           }
-       }
-       if (head1 == null){
-           while (head2!=null){
-               newList.insertLast(head2.value);
-               head2 = head2.next;
-
-           }
-       }
-       if (head2 ==null){
-           while (head1!=null){
-               newList.insertLast(head1.value);
-               head1 = head1.next;
-           }
-       }
-       return newList;
-
-   }
-   public Node getNode(int index){
+   public void displayForward(){
        Node temp = head;
-       for (int ind=0;ind<index;ind++){
-            temp = temp.next;
-      }
-       return temp;
+       while(temp !=null){
+           System.out.print(temp.value + "-->");
+           temp = temp.next;
+       }
+       System.out.println("END");
    }
-   public void bubbleSort(){
-       Node first;
-       Node second;
-       Node previous = null;
-       for (int row=size-1; row >-1;row--){
-           for (int col = 0; col <row; col++){
-               first = this.getNode(col);
-               second = this.getNode(col+1);
+   public class Node{
+       private int value;
+       private Node next;
 
-               if (first.value > second.value){
-                   if (first == head){
-                       head = second;
-                       first.next = second.next;
-                       second.next = first;
-                   }
-                   else {
+       Node (){
 
-                       previous.next = second;
-                       first.next = second.next;
-                       second.next = first;
-                   }
-               }
+       }
+       Node (int value){
+           this.value = value;
+       }
 
-               previous = second;
-           }
+       Node (int value, Node next){
+           this.value = value;
+           this.next = next;
        }
    }
-   public void reverse(){
-       this.recursiveReverse(this.head);
-   }
-   public void recursiveReverse(Node current){
-        if (current.next ==null){
-            head = current;
-            tail = current;
-            return ;
-        }
-        recursiveReverse(current.next);
-        tail.next = current;
-        current.next = null;
-        tail = current;
-
-
-   }
-   private class Node{
-           private int value;
-           private Node next;
-           private Node previous;
-           private Node(int value){
-               this.value = value;
-           }
-
-           private Node(int value, Node next){
-               this.value = value;
-               this.next = next;
-           }
-
-           private Node(int value,Node next, Node previous){
-               this.value = value;
-               this.next = next;
-               this.previous = previous;
-           }
-       }
-   }
+}

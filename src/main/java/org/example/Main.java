@@ -6,30 +6,20 @@ public class Main {
 
     public static void main(String[] args) {
         LinkedList ll = new LinkedList();
-       // ll.displayForward();
-        ll.insertLast(1);
+        ll.insertFirst(1);
+        ll.deleteFirst();
         ll.insertLast(2);
-        ll.insertLast(4);
+
+        ll.insertMiddle(3,0);
         ll.displayForward();
-        LinkedList ll1 = new LinkedList();
-        ll1.insertFirst(5);
-        ll1.insertLast(1);
-        ll1.insertLast(3);
-        ll1.insertLast(4);
-        //LinkedList newLL = LinkedList.merge(ll,ll1) ;
-        //System.out.println(ll1.getNode(0));
-        //ll1.bubbleSort();
-        ll1.displayForward();
-        ll1.reverse();
-        ll1.displayForward();
+        ll.deleteLast();
+        ll.insertLast(5);
+        ll.insertLast(6);
+        ll.insertFirst(0);
+        ll.displayForward();
+        ll.deleteMiddle(3);
+        ll.displayForward();
 
-
-
-
-
-       //ll.deleteFirst();
-       //ll.displayForward();
-       //ll.displayBackward();
 
 
     }
